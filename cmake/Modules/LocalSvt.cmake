@@ -40,7 +40,7 @@ else()
 
     FetchContent_Declare(
         svt
-        GIT_REPOSITORY "https://gitlab.com/AOMediaCodec/SVT-AV1.git"
+        GIT_REPOSITORY "https://github.com/gianni-rosato/svt-av1-psy.git"
         BINARY_DIR "${SVT_BINARY_DIR}"
         GIT_TAG "${AVIF_LOCAL_SVT_GIT_TAG}"
         UPDATE_COMMAND ""

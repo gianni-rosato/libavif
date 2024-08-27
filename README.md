@@ -8,6 +8,8 @@ File Format, as described here:
 It can encode and decode all AV1 supported YUV formats and bit depths (with
 alpha).
 
+**PSST! PSY enjoyers - please just run `./ezbuild.sh` and you're good to go!**
+
 It is recommended that you check out/use
 [tagged releases](https://github.com/AOMediaCodec/libavif/releases) instead of
 just using the main branch. We will regularly create new versions as bug fixes
