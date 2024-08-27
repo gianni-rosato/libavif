@@ -4,12 +4,12 @@
 
 set -e
 
-git clone -b v2.2.0 --depth 1 https://gitlab.com/AOMediaCodec/SVT-AV1.git
+git clone -b v2.2.0 --depth 1 https://github.com/gianni-rosato/svt-av1-psy.git SVT-AV1
 
 cd SVT-AV1
 cd Build/linux
 
-./build.sh disable-native release static no-apps
+./build.sh native release static no-apps enable-lto
 cd ../..
 mkdir -p include/svt-av1
 cp Source/API/*.h include/svt-av1
