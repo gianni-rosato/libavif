@@ -16,7 +16,7 @@ git clone -b v2.2.0 --depth 1 https://github.com/gianni-rosato/svt-av1-psy.git S
 cd SVT-AV1
 cd Build/windows
 
-call build.bat release static no-apps
+call build.bat release static no-apps lto
 cd ../..
 mkdir include\svt-av1
 copy Source\API\*.h include\svt-av1
