@@ -16,7 +16,7 @@ command_exists() {
 }
 
 installation_prompt() {
-    str=$(gum confirm "Install avifenc to /usr/local/bin?" --selected.background="161" --selected.foreground="15" --unselected.foreground="248" && echo "Yes" || echo "No")
+    str=$(gum confirm "Install avifenc & oavif to /usr/local/bin?" --selected.background="161" --selected.foreground="15" --unselected.foreground="248" && echo "Yes" || echo "No")
     echo "$str"
 }
 
@@ -49,7 +49,8 @@ build_process() {
     gum spin --spinner points --title "Configuring libavif..." -- cmake -S . -B build \
     -DAVIF_CODEC_AOM=LOCAL -DAVIF_CODEC_SVT=LOCAL \
     -DAVIF_LIBYUV=LOCAL -DAVIF_LIBSHARPYUV=LOCAL -DAVIF_JPEG=LOCAL \
-    -DAVIF_BUILD_APPS=ON
+    -DAVIF_BUILD_APPS=ON -DAVIF_ENABLE_AVIFGAINMAPUTIL=ON \
+    -DAVIF_ENABLE_EXPERIMENTAL_JPEG_GAIN_MAP_CONVERSION=ON
     gum spin --spinner points --title "Compiling libavif..." -- cmake --build build --parallel
     echo -e "${GREEN}Compilation process complete${RESET}"
 
@@ -80,7 +81,8 @@ main() {
     case $(installation_prompt) in
         "Yes")
             sudo cp build/avifenc /usr/local/bin/
-            echo -e "${GREEN}avifenc has been installed to /usr/local/bin/${RESET}"
+            sudo cp oavif.sh /usr/local/bin/oavif
+            echo -e "${GREEN}avifenc & oavif have been installed to /usr/local/bin/${RESET}"
             exit 0
             ;;
         "No")
