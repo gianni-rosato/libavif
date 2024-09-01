@@ -4,7 +4,7 @@
 
 set -e
 
-git clone -b v2.2.0 --depth 1 https://github.com/gianni-rosato/svt-av1-psy.git SVT-AV1
+git clone -b testing --depth 1 https://github.com/gianni-rosato/svt-av1-psy.git SVT-AV1
 
 cd SVT-AV1
 cd Build/linux

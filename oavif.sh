@@ -26,7 +26,7 @@ encode_avifenc_svt() {
     local speed=$3
     local crf=$4
     gum spin --spinner points --title "Encoding with SVT-AV1..." -- \
-    avifenc -s "$speed" -c svt -y 420 -a "crf=$crf" -a tune=4 "$input" -o "$output"
+    avifenc -s "$speed" -c svt -y 420 -d 10 -a "crf=$crf" -a tune=4 "$input" -o "$output"
 }
 
 # AOM encode (for odd width & height)
