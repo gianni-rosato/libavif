@@ -30,6 +30,7 @@ build_process() {
     done
 
     # Mark the scripts as executable
+    chmod +x ext/libxml2.cmd
     chmod +x ext/svt.sh
     chmod +x ext/aom.cmd
     chmod +x ext/libyuv.cmd
@@ -38,28 +39,28 @@ build_process() {
 
     echo -e "${YELLW}Configuring libavif & dependencies...${RESET}"
     cd ext || exit 1
-    # gum spin --spinner points --title "Configuring libxml2..." -- bash libxml2.cmd
-    gum spin --spinner points --title "Configuring libyuv..." -- bash libyuv.cmd
-    gum spin --spinner points --title "Configuring libsharpyuv..." -- bash libsharpyuv.cmd
-    gum spin --spinner points --title "Configuring libjpeg..." -- bash libjpeg.cmd
-    gum spin --spinner points --title "Configuring SVT-AV1-PSY..." -- bash svt.sh
-    gum spin --spinner points --title "Configuring aom-psy101..." -- bash aom.cmd
+    gum spin --spinner points --title "Configuring libxml2..." -- bash libxml2.cmd || echo -e "${RED}Error: libxml2 configuration failed${RESET}"
+    gum spin --spinner points --title "Configuring libyuv..." -- bash libyuv.cmd || echo -e "${RED}Error: libyuv configuration failed${RESET}"
+    gum spin --spinner points --title "Configuring libsharpyuv..." -- bash libsharpyuv.cmd || echo -e "${RED}Error: libsharpyuv configuration failed${RESET}"
+    gum spin --spinner points --title "Configuring libjpeg..." -- bash libjpeg.cmd || echo -e "${RED}Error: libjpeg configuration failed${RESET}"
+    gum spin --spinner points --title "Configuring SVT-AV1-PSY..." -- bash svt.sh || echo -e "${RED}Error: SVT-AV1-PSY configuration failed${RESET}"
+    gum spin --spinner points --title "Configuring aom-psy101..." -- bash aom.cmd || echo -e "${RED}Error: aom-psy101 configuration failed${RESET}"
     cd ..
     echo -e "${BLUE}Configuration process complete${RESET}"
     gum spin --spinner points --title "Configuring libavif..." -- cmake -S . -B build \
-    -DAVIF_CODEC_AOM=LOCAL -DAVIF_CODEC_SVT=LOCAL \
-    -DAVIF_LIBYUV=LOCAL -DAVIF_LIBSHARPYUV=LOCAL -DAVIF_JPEG=LOCAL \
+    -DAVIF_CODEC_AOM=LOCAL -DAVIF_CODEC_SVT=LOCAL -DAVIF_LIBYUV=LOCAL \
+    -DAVIF_LIBXML2=LOCAL -DAVIF_LIBSHARPYUV=LOCAL -DAVIF_JPEG=LOCAL \
     -DAVIF_BUILD_APPS=ON -DAVIF_ENABLE_AVIFGAINMAPUTIL=ON \
-    -DAVIF_ENABLE_EXPERIMENTAL_JPEG_GAIN_MAP_CONVERSION=ON
-    gum spin --spinner points --title "Compiling libavif..." -- cmake --build build --parallel
+    -DAVIF_ENABLE_EXPERIMENTAL_JPEG_GAIN_MAP_CONVERSION=ON || echo -e "${RED}Error: libavif configuration failed${RESET}"
+    gum spin --spinner points --title "Compiling libavif..." -- cmake --build build --parallel || echo -e "${RED}Error: libavif compilation failed${RESET}"
     echo -e "${GREEN}Compilation process complete${RESET}"
 
-    # Cleanup build dirs
-    for dir in SVT-AV1 aom libjpeg-turbo libwebp libxml2 libyuv zlib libpng; do
-        if [ -d "ext/$dir" ]; then
-            rm -rf ext/$dir
-        fi
-    done
+    # # Cleanup build dirs
+    # for dir in SVT-AV1 aom libjpeg-turbo libwebp libxml2 libyuv zlib libpng; do
+    #     if [ -d "ext/$dir" ]; then
+    #         rm -rf ext/$dir
+    #     fi
+    # done
 }
 
 main() {
