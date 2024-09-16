@@ -18,7 +18,7 @@ function BuildProcess {
 
     Write-Host "Configuring libavif & dependencies..." -ForegroundColor Yellow
     Set-Location ext
-    # gum spin --spinner points --title "Configuring libxml2..." -- bash libxml2.cmd
+    # gum spin --spinner points --title "Configuring libxml2..." -- cmd /c libxml2.cmd
     gum spin --spinner points --title "Configuring libyuv..." -- cmd /c libyuv.cmd
     gum spin --spinner points --title "Configuring libsharpyuv..." -- cmd /c libsharpyuv.cmd
     gum spin --spinner points --title "Configuring libjpeg..." -- cmd /c libjpeg_win.cmd
@@ -29,9 +29,9 @@ function BuildProcess {
 
     Write-Host "Configuration process complete" -ForegroundColor Blue
     gum spin --spinner points --title "Configuring libavif..." -- cmake -S . -B build `
-    -DBUILD_SHARED_LIBS=OFF -DAVIF_CODEC_AOM=LOCAL -DAVIF_LIBYUV=LOCAL `
-    -DAVIF_LIBSHARPYUV=LOCAL -DAVIF_JPEG=LOCAL -DAVIF_ZLIBPNG=LOCAL `
-    -DAVIF_BUILD_APPS=ON
+    -DBUILD_SHARED_LIBS=OFF -DAVIF_CODEC_AOM=LOCAL -DAVIF_CODEC_SVT=LOCAL `
+    -DAVIF_LIBYUV=LOCAL -DAVIF_LIBSHARPYUV=LOCAL -DAVIF_JPEG=LOCAL `
+    -DAVIF_ZLIBPNG=LOCAL -DAVIF_BUILD_APPS=ON
 
     gum spin --spinner points --title "Compiling libavif..." -- cmake --build build --config Release --parallel
     Write-Host "Compilation process complete" -ForegroundColor Green
