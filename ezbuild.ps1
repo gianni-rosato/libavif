@@ -18,13 +18,13 @@ function BuildProcess {
 
     Write-Host "Configuring libavif & dependencies..." -ForegroundColor Yellow
     Set-Location ext
-    # gum spin --spinner points --title "Configuring libxml2..." -- cmd /c libxml2.cmd
-    gum spin --spinner points --title "Configuring libyuv..." -- cmd /c libyuv.cmd
-    gum spin --spinner points --title "Configuring libsharpyuv..." -- cmd /c libsharpyuv.cmd
-    gum spin --spinner points --title "Configuring libjpeg..." -- cmd /c libjpeg_win.cmd
-    gum spin --spinner points --title "Configuring zlib and libpng..." -- cmd /c zlibpng.cmd
-    gum spin --spinner points --title "Configuring SVT-AV1-PSY..." -- cmd /c svt.cmd
-    gum spin --spinner points --title "Configuring aom-psy101..." -- cmd /c aom.cmd
+    # gum spin --spinner points --title "Configuring libxml2..." -- .\libxml2.cmd
+    gum spin --spinner points --title "Configuring libyuv..." -- .\libyuv.cmd
+    gum spin --spinner points --title "Configuring libsharpyuv..." -- .\libsharpyuv.cmd
+    gum spin --spinner points --title "Configuring libjpeg..." -- .\libjpeg_win.cmd
+    gum spin --spinner points --title "Configuring zlib and libpng..." -- .\zlibpng.cmd
+    gum spin --spinner points --title "Configuring SVT-AV1-PSY..." -- .\svt.cmd
+    gum spin --spinner points --title "Configuring aom-psy101..." -- .\aom.cmd
     Set-Location ..
 
     Write-Host "Configuration process complete" -ForegroundColor Blue
