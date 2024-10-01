@@ -55,22 +55,16 @@ encode_image() {
     local crf=$4
 
     image_info=$(identify -format "%w %h %[channels]" "$input")
-    width=$(echo "$image_info" | cut -d' ' -f1)
-    height=$(echo "$image_info" | cut -d' ' -f2)
     channels=$(echo "$image_info" | cut -d' ' -f3)
 
     if [[ $channels == *"a"* ]] || [[ $channels == *"rgba"* ]]; then
         # aomenc for images with alpha channel
         echo "Alpha channel detected, encoding with aomenc..."
         encode_avifenc_aom "$input" "$output" "$speed" "$crf"
-    elif [ $((width % 2)) -eq 0 ] && [ $((height % 2)) -eq 0 ]; then
-        # SVT-AV1 for even width & height
+    else
+        # SVT-AV1 for everything else
         echo "Encoding with SVT-AV1..."
         encode_avifenc_svt "$input" "$output" "$speed" "$crf"
-    else
-        # aomenc for odd width & height
-        echo "Odd width or height detected, encoding with aomenc..."
-        encode_avifenc_aom "$input" "$output" "$speed" "$crf"
     fi
 }
 
