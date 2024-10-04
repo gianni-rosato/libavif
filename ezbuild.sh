@@ -30,7 +30,6 @@ build_process() {
     done
 
     # Mark the scripts as executable
-    # chmod +x ext/libxml2.cmd
     chmod +x ext/svt.sh
     chmod +x ext/aom.cmd
     chmod +x ext/libyuv.cmd
@@ -39,7 +38,6 @@ build_process() {
 
     echo -e "${YELLW}Configuring libavif & dependencies...${RESET}"
     cd ext || exit 1
-    # gum spin --spinner points --title "Configuring libxml2..." -- bash libxml2.cmd || echo -e "${RED}Error: libxml2 configuration failed${RESET}"
     gum spin --spinner points --title "Configuring libyuv..." -- bash libyuv.cmd || echo -e "${RED}Error: libyuv configuration failed${RESET}"
     gum spin --spinner points --title "Configuring libsharpyuv..." -- bash libsharpyuv.cmd || echo -e "${RED}Error: libsharpyuv configuration failed${RESET}"
     gum spin --spinner points --title "Configuring libjpeg..." -- bash libjpeg.cmd || echo -e "${RED}Error: libjpeg configuration failed${RESET}"
@@ -53,12 +51,6 @@ build_process() {
     gum spin --spinner points --title "Compiling libavif..." -- cmake --build build --parallel || echo -e "${RED}Error: libavif compilation failed${RESET}"
     echo -e "${GREEN}Compilation process complete${RESET}"
 
-    # # Cleanup build dirs
-    # for dir in SVT-AV1 aom libjpeg-turbo libwebp libxml2 libyuv zlib libpng; do
-    #     if [ -d "ext/$dir" ]; then
-    #         rm -rf ext/$dir
-    #     fi
-    # done
 }
 
 main() {

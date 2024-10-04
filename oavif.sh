@@ -10,12 +10,13 @@ RESET="\033[0m"
 # Function to display usage information
 show_usage() {
     echo -e "${BOLD}oavif.sh${RESET} | Optimized AVIF encoding based on your input\n"
-    echo -e "${GREY}Usage${RESET}:\n\t$0 -i <${YELW}input${RESET}> -o <${YELW}output${RESET}> [${GREY}-q <crf>${RESET}] [${GREY}-s <speed>${RESET}]\n"
+    echo -e "${GREY}Usage${RESET}:\n\t$0 -i <${YELW}input${RESET}> -o <${YELW}output${RESET}> [${GREY}-q <crf>${RESET}] [${GREY}-s <speed>${RESET}] [${GREY}-p <effort>${RESET}]\n"
     echo -e "${GREY}Options${RESET}:"
     echo -e "\t-i <input>\tInput video file"
     echo -e "\t-o <output>\tOutput video file"
     echo -e "\t-q <crf>\tEncoding CRF (0-63; default: 32)"
     echo -e "\t-s <speed>\tCompression effort (0-8; default: 4)"
+    echo -e "\t-p <effort>\toxipng preprocessing effort (0-7; default: 0 [off])"
     exit 1
 }
 
@@ -47,6 +48,15 @@ encode_avifenc_aom() {
     "$input" -o "$output"
 }
 
+# Preprocess the image with oxipng
+preprocess_image() {
+    local input=$1
+    local effort=$2
+    echo "Preprocessing image with oxipng..."
+    gum spin --spinner points --title "Preprocessing image with oxipng..." -- \
+    oxipng -qso "$effort" "$input" || echo -e "${GREY}Error: Preprocessing failed${RESET}"
+}
+
 # Function to encode video
 encode_image() {
     local input=$1
@@ -71,14 +81,16 @@ encode_image() {
 # Set defaults
 crf=32
 speed=4
+preprocess=0
 
 # Parse command line arguments
-while getopts ":i:o:q:s:h" opt; do
+while getopts ":i:o:q:s:p:h" opt; do
     case ${opt} in
         i ) input=$OPTARG ;;
         o ) output=$OPTARG ;;
         q ) crf=$OPTARG ;;
         s ) speed=$OPTARG ;;
+        p ) preprocess=$OPTARG ;;
         h ) show_usage ;;
         \? ) show_usage ;;
     esac
@@ -93,6 +105,18 @@ fi
 if [ ! -f "$input" ]; then
     echo -e "${GREY}Error: Input file not found${RESET}"
     exit 1
+fi
+
+# Preprocess image if specified
+if [ $preprocess -ne 0 ]; then
+    if ! command -v oxipng &> /dev/null; then
+        echo -e "${GREY}Error: oxipng not found${RESET}"
+        exit 1
+    fi
+    if [ $preprocess -gt 6 ]; then
+        preprocess="max"
+    fi
+    preprocess_image "$input" "$preprocess"
 fi
 
 # Encode image
