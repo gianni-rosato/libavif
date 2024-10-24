@@ -14,10 +14,10 @@
 git clone -b master --depth 1 https://github.com/gianni-rosato/svt-av1-psy.git SVT-AV1
 
 cd SVT-AV1
-cd Build/windows
 
-call build.bat release static no-apps lto
-cd ../..
+cmake -B svt_build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_APPS=OFF -DCMAKE_CXX_FLAGS_RELEASE="-flto /O2 /Ob2 /DNDEBUG" -DCMAKE_C_FLAGS_RELEASE="-flto /O2 /Ob2 /DNDEBUG"
+cmake --build svt_build --parallel
+
 mkdir include\svt-av1
 copy Source\API\*.h include\svt-av1
 
